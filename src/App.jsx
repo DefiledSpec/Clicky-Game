@@ -3,10 +3,6 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import withRoot from './withRoot'
 import { Navbar, Footer, Panel, Characters } from './components'
-// import Navbar from './components/Navbar'
-// import Footer from './components/Footer'
-// import Panel from './components/Panel'
-// import Characters from './components/Characters'
 import { characters } from './characters'
 import { shuffle } from './utils'
 
@@ -26,6 +22,7 @@ class App extends Component {
 		clicked: [],
 		characters,
 		color: 'white',
+		locked: false
 	}
 
 	reset() {
@@ -39,26 +36,29 @@ class App extends Component {
 	}
 
 	handleGuess = (id) => {
-		let guessed = this.state.clicked.includes(id)
-		if(!guessed) {
-			let clicked = [ ...this.state.clicked, id ]
-			this.setState({
-				color: 'green',
-				score: this.state.score + 1,
-				status: 'Correct!',
-				clicked
-			})
-		} else {
-			this.setState({
-				color: 'red',
-				status: 'Incorrect!'
-			})
+		if (!this.state.locked) {
+			this.setState({locked: true})
+			let guessed = this.state.clicked.includes(id)
+			if(!guessed) {
+				let clicked = [ ...this.state.clicked, id ]
+				this.setState({
+					color: 'green',
+					score: this.state.score + 1,
+					status: 'Correct!',
+					clicked
+				})
+			} else {
+				this.setState({
+					color: 'red',
+					status: 'Incorrect!'
+				})
+			}
+			let characters = this.state.characters.map(ea => shuffle(ea))
+			setTimeout(() => {
+				this.setState({ characters, locked: false, color: 'white' })
+				if(guessed) this.reset()
+			}, 300)
 		}
-		let characters = this.state.characters.map(ea => shuffle(ea))
-		setTimeout(() => {
-			this.setState({ characters })
-			if(guessed) this.reset()
-		}, 300)
 	}
 
   	render() {
