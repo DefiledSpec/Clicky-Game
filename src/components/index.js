@@ -1,0 +1,7 @@
+export { default as Navbar } from './Navbar/Navbar'
+export { default as Status } from './Status/Status'
+export { default as Score } from './Score/Score'
+export { default as Panel } from './Panel/Panel'
+export { default as Characters } from './Characters/Characters'
+export { default as FriendCard } from './FriendCard/FriendCard'
+export { default as Footer } from './Footer/Footer'

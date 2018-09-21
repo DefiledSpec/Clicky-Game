@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import withRoot from './withRoot'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import Panel from './components/Panel'
-import Characters from './components/Characters'
+import { Navbar, Footer, Panel, Characters } from './components'
+// import Navbar from './components/Navbar'
+// import Footer from './components/Footer'
+// import Panel from './components/Panel'
+// import Characters from './components/Characters'
 import { characters } from './characters'
 import { shuffle } from './utils'
 
@@ -33,7 +34,7 @@ class App extends Component {
 		this.setState({
 			score: 0,
 			topScore,
-			clicked: []
+			clicked: [],
 		})
 	}
 
@@ -55,7 +56,7 @@ class App extends Component {
 		}
 		let characters = this.state.characters.map(ea => shuffle(ea))
 		setTimeout(() => {
-			this.setState({ characters, color: 'white' })
+			this.setState({ characters })
 			if(guessed) this.reset()
 		}, 300)
 	}

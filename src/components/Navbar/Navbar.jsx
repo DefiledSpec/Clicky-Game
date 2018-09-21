@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {AppBar, Toolbar, Typography, Grid} from '@material-ui/core'
-import Status from '../Status'
-import Score from '../Score'
+import { Status, Score } from '../'
 
 const styles = {
 	root: {

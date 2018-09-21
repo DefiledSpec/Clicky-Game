@@ -1,7 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid } from '@material-ui/core'
-import FriendCard from '../Card'
+import { FriendCard } from '../'
 
 const styles = {
 	container: {
