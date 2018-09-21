@@ -1,5 +1,4 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography } from '@material-ui/core'
 
 class Score extends React.Component {
