@@ -2,10 +2,6 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography } from '@material-ui/core'
 
-const styles = {
-
-}
-
 class Score extends React.Component {
 	render() {
 		const { score, topScore, color } = this.props
@@ -26,4 +22,4 @@ class Score extends React.Component {
 	}
 }
 
-export default withStyles(styles)(Score)
+export default Score

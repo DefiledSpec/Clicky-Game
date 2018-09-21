@@ -12,9 +12,6 @@ const styles = {
 		left: 0,
 		right: 0
 	},
-	// status: {
-	// 	width: '100%'
-	// },
 	gridItem: {
 		margin: '0 auto'
 	}

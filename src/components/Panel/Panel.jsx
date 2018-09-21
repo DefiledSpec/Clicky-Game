@@ -14,7 +14,6 @@ const styles = theme => ({
 		color: 'white'
 	},
 	title: {
-		// color: theme.palette.secondary.main
 		color: 'white'
 	}
 })
