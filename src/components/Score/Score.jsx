@@ -1,20 +1,21 @@
 import React from 'react'
-import { Grid, Typography } from '@material-ui/core'
+import { Typography, Grid } from '@material-ui/core'
 
 class Score extends React.Component {
 	render() {
-		const { score, topScore, color } = this.props
+		const { children : type, color, score  } = this.props
 		return (
 			<Grid item xs>
-				<Typography 
+				<Typography
 					variant='headline' 
 					align='center' 
 					color='inherit'
 				>
-					Score:&nbsp; 
-					<span style={ { color } }>{ score }</span>&nbsp;
-					| Top Score:&nbsp;
-					<span>{ topScore }</span>			
+					{ type }:&nbsp;{ (color && 
+						<span style={{ color }}>{ score }</span>)
+						||
+						score
+					}
 				</Typography>
 			</Grid>
 		)

@@ -1,5 +1,6 @@
 export { default as Navbar } from './Navbar/Navbar'
 export { default as Status } from './Status/Status'
+export { default as ScoreBoard } from './Score/ScoreBoard'
 export { default as Score } from './Score/Score'
 export { default as Panel } from './Panel/Panel'
 export { default as Characters } from './Characters/Characters'

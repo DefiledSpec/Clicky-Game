@@ -5,9 +5,9 @@ import { withStyles } from '@material-ui/core/styles'
 const styles = theme => ({
 	paper: {
 		marginTop: '4em',
-		background: 'url(./img/bg.jpg) no-repeat center center fixed',
+		background: 'none',
 		backgroundSize: '100%',
-		padding: '4em'
+		padding: '2.5em'
 	},
 	display2: {
 		marginBottom: '.75em',
