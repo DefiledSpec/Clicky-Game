@@ -41,17 +41,19 @@ class App extends Component {
 	}
 
 	isGuessed(id) {
-		console.log(this.state.clicked, id, this.state.clicked.includes(id))
+		// console.log(this.state.clicked, id, this.state.clicked.includes(id))
 		return this.state.clicked.includes(id)
 	} 
 
 	handleGuess = (id) => {
 		if (!this.state.locked) {
-			this.setState({ locked: true })
+			this.setState({ locked: true})
 			let { wins: curWins, score: curScore, streak: curStreak, clicked } = this.state
 			 // bool -> was this card guessed?
-			console.log('curScore: ', (curScore + 1 === 3))
+			// console.log('curScore: ', (curScore + 1 === 3))
 			// this.style.color = this.state.color
+			
+			// If the user has guessed all 8 correctly. 
 			if((curScore + 1) === 8) {
 				this.setState({
 					clicked: [],
@@ -59,11 +61,11 @@ class App extends Component {
 					wins: curWins + 1,
 					streak: curStreak + 1,
 					color: 'green',
-					clicked, 
+					// clicked, 
 					topScore: 8,
 				})
 			}
-			console.log(!this.isGuessed(id))
+			// console.log(!this.isGuessed(id))
 			let isGuessed = !this.isGuessed(id)
 			if(isGuessed) {
 				let clicked = [ ...this.state.clicked, id ]
@@ -79,14 +81,14 @@ class App extends Component {
 					status: 'Incorrect!'
 				})
 			}
-			// let characters = this.state.characters.map(ea => shuffle(ea))
+			let characters = this.state.characters.map(ea => shuffle(ea))
 			setTimeout((arg) => {
 				this.setState({
-					// characters, 
+					characters, 
 					locked: false, 
 					color: 'white'
 				})
-				console.log('not ', arg)
+				// console.log('not ', arg)
 				if(arg) this.reset()
 			}, 300, this.isGuessed(id))
 		}
