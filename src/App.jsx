@@ -9,11 +9,19 @@ import { shuffle } from './utils'
 
 const styles = theme => ({
 	root: {
-		// background: 'url(./img/bg.jpg) no-repeat center center fixed',
-		backgroundSize: '100%',
-		height: '100%'
+		display: 'flex',
+		flexDirection: 'column',
+		minHeight: '100vh',
+		backgroundSize: 'cover',
 	},
-})
+	content: {
+		flex: 1,
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		paddingTop: 64, // Offsets fixed Navbar
+	},
+});
 
 class App extends Component {
 
@@ -21,12 +29,14 @@ class App extends Component {
 		status: 'Start Playing!',
 		score: 0,
 		topScore: 0,
-		wins: 0,	// Update for users who guess all 8
-		streak: 0,	// Update for users who guess all 8
+		wins: 0,
+		streak: 0,
 		clicked: [],
 		characters,
 		color: 'white',
-		locked: false
+		locked: false,
+		shake: false,
+		won: false,
 	}
 
 	reset() {
@@ -36,88 +46,102 @@ class App extends Component {
 			score: 0,
 			topScore,
 			clicked: [],
-			streak: 0,			
+			streak: 0,
 		})
 	}
 
 	isGuessed(id) {
-		// console.log(this.state.clicked, id, this.state.clicked.includes(id))
 		return this.state.clicked.includes(id)
-	} 
-
-	handleGuess = (id) => {
-		if (!this.state.locked) {
-			this.setState({ locked: true})
-			let { wins: curWins, score: curScore, streak: curStreak, clicked } = this.state
-			 // bool -> was this card guessed?
-			// console.log('curScore: ', (curScore + 1 === 3))
-			// this.style.color = this.state.color
-			
-			// If the user has guessed all 8 correctly. 
-			if((curScore + 1) === 8) {
-				this.setState({
-					clicked: [],
-					score: 0, 
-					wins: curWins + 1,
-					streak: curStreak + 1,
-					color: 'green',
-					// clicked, 
-					topScore: 8,
-				})
-			}
-			// console.log(!this.isGuessed(id))
-			let isGuessed = !this.isGuessed(id)
-			if(isGuessed) {
-				let clicked = [ ...this.state.clicked, id ]
-				this.setState({
-					color: 'green',
-					score: curScore + 1,
-					status: 'Correct!',
-					clicked
-				})	
-			} else {
-				this.setState({
-					color: 'red',
-					status: 'Incorrect!'
-				})
-			}
-			let characters = this.state.characters.map(ea => shuffle(ea))
-			setTimeout((arg) => {
-				this.setState({
-					characters, 
-					locked: false, 
-					color: 'white'
-				})
-				// console.log('not ', arg)
-				if(arg) this.reset()
-			}, 300, this.isGuessed(id))
-		}
 	}
 
-  	render() {
+	handleGuess = (id) => {
+		if (this.state.locked) return;
+
+		this.setState({ locked: true });
+		const { wins: curWins, score: curScore, streak: curStreak, topScore: curTop } = this.state;
+		const alreadyGuessed = this.isGuessed(id);
+		const shuffledCharacters = this.state.characters.map(ea => shuffle(ea));
+
+		if (alreadyGuessed) {
+			this.setState({
+				color: 'red',
+				status: 'Incorrect! Try again.',
+				shake: true,
+				won: false,
+			});
+
+			setTimeout(() => {
+				this.setState({
+					characters: shuffledCharacters,
+					locked: false,
+					color: 'white',
+					shake: false,
+				});
+				this.reset();
+			}, 500);
+		} else if (curScore + 1 === 8) {
+			this.setState({
+				clicked: [],
+				score: 0,
+				wins: curWins + 1,
+				streak: curStreak + 1,
+				topScore: 8,
+				color: 'green',
+				status: 'You cleared all 8!',
+				won: true,
+			});
+
+			setTimeout(() => {
+				this.setState({
+					characters: shuffledCharacters,
+					locked: false,
+					color: 'white',
+				});
+			}, 600);
+		} else {
+			const newScore = curScore + 1;
+			this.setState({
+				color: 'green',
+				score: newScore,
+				topScore: Math.max(curTop, newScore),
+				status: 'Correct!',
+				clicked: [ ...this.state.clicked, id ],
+				won: false,
+			});
+
+			setTimeout(() => {
+				this.setState({
+					characters: shuffledCharacters,
+					locked: false,
+					color: 'white',
+				});
+			}, 300);
+		}
+	};
+
+	render() {
 		const { classes } = this.props,
-		{ characters, color, clicked } = this.state
-		// console.log('Clicked: ', clicked, this.state.score)
-    	return (
-			<main className={ classes.root }>
-				<Navbar { ...this.state } />
-				<Grid>
-				<ScoreBoard { ...this.state } />
-				</Grid>
-				<Panel /> 
-				<Characters 
-					characters={ characters } 
-					handleGuess={ this.handleGuess } 
-					color={ color }
-				/>
+			{ characters, color, clicked } = this.state
+		return (
+			<main className={classes.root}>
+				<Navbar {...this.state} />
+				<div className={classes.content}>
+					<Panel won={this.state.won} wins={this.state.wins} streak={this.state.streak} />
+					<Characters
+						characters={characters}
+						handleGuess={this.handleGuess}
+						color={color}
+						shake={this.state.shake}
+					/>
+				</div>
 				<Footer />
 			</main>
-   		)
-  	}
+		);
+	}
 }
 
 App.propTypes = {
 	classes: PropTypes.object.isRequired,
 }
 
-export default withRoot(withStyles(styles)(App))
+export default withRoot(withStyles(styles)(App));

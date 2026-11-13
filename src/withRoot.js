@@ -1,38 +1,42 @@
 import React from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import {blue, green} from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-// A theme with custom primary and secondary color.
-// It's optional.
 const theme = createMuiTheme({
   palette: {
+    type: 'dark',
     primary: {
-      light: blue[300],
-      main: blue[500],
-      dark: blue[700],
+      main: '#161922', // Deep sleek charcoal for Navbar/Footer
     },
     secondary: {
-      light: green[300],
-      main: green[500],
-      dark: green[700],
+      main: '#ff6d00', // South Park-inspired vibrant orange accent
+    },
+    background: {
+      default: '#0f1117',
+      paper: '#1e222d',
+    },
+  },
+  typography: {
+    fontFamily: '"Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif',
+    display2: {
+      fontWeight: 800,
+      letterSpacing: '0.03em',
+    },
+    headline: {
+      fontWeight: 600,
     },
   },
 });
 
 function withRoot(Component) {
   function WithRoot(props) {
-    // MuiThemeProvider makes the theme available down the React tree
-    // thanks to React context.
     return (
       <MuiThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Component {...props} />
       </MuiThemeProvider>
     );
   }
-
   return WithRoot;
 }
 
