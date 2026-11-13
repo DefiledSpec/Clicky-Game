@@ -2,7 +2,7 @@
 
 An interactive, fast-paced memory game built with **React** and **Material-UI**. Test your short-term memory by clicking all eight South Park character cards without selecting the same character twice—after every click, the entire board shuffles!
 
-![Clicky Game Screenshot](./path/to/screenshot.png)
+<!-- ![Clicky Game Screenshot](./path/to/screenshot.png)-->
 
 ## Live Demo
 
